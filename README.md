@@ -28,7 +28,7 @@ Uses Claude's [progressive disclosure](https://docs.anthropic.com/en/docs/agents
 ### Claude Code
 
 ```bash
-git clone https://github.com/your-org/superlight-exa-skill.git ~/.claude/skills/exa
+git clone https://github.com/edxeth/superlight-exa-skill.git ~/.claude/skills/exa
 ```
 
 ### Manual Installation
