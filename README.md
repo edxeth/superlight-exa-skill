@@ -13,15 +13,30 @@ AI-powered semantic web search via the Exa API. A superlight agent skill for AI 
 - **Token-efficient** — Minimal context overhead with progressive disclosure
 - **Multi-key rotation** — Round-robin distribution with automatic 429 failover
 
+## Why Use This Over Exa MCP?
+
+| Aspect | MCP Server | This Skill |
+|--------|------------|------------|
+| Context cost | **~700+ tokens always**¹ | **~82 tokens always** + ~630 on-demand |
+| Tool schemas | Always in context | None (progressive disclosure) |
+| Setup | Requires MCP configuration | Drop-in skill directory |
+| Dependencies | Node.js runtime | bash, curl, jq (Linux/macOS) |
+
+¹ *Estimated from multi-tool MCP measurements (~14k tokens for 20 tools). [Source](https://scottspence.com/posts/optimising-mcp-server-context-usage-in-claude-code)*
+
+Best for: Users who need web search on-demand without persistent context overhead.
+
 ## Token Budget
 
 Uses Claude's [progressive disclosure](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills) architecture:
 
 | Level | When Loaded | Content | Tokens |
 |-------|-------------|---------|--------|
-| **Metadata** | Always (startup) | Skill description | ~80 |
-| **Instructions** | When triggered | SKILL.md protocol | ~400 |
-| **Resources** | As needed | troubleshooting.md | ~400 |
+| **Metadata** | Always (startup) | Skill description | ~82 |
+| **Instructions** | When triggered | SKILL.md protocol | ~630 |
+| **Resources** | As needed | troubleshooting.md | ~632 |
+
+*Token counts measured with [claudetokenizer.com](https://www.claudetokenizer.com/) (Claude Sonnet 4.5)*
 
 ## Installation
 
