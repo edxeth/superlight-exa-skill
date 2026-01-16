@@ -40,16 +40,30 @@ Uses Claude's [progressive disclosure](https://docs.anthropic.com/en/docs/agents
 
 ## Installation
 
-### Claude Code
+### Quick Install (Recommended)
 
 ```bash
-git clone https://github.com/edxeth/superlight-exa-skill.git ~/.claude/skills/exa
+npx add-skill edxeth/superlight-exa-skill
 ```
+
+The installer will prompt you to select which agents to install to (Claude Code, Cursor, OpenCode, Codex, Antigravity, etc.).
 
 ### Manual Installation
 
+Clone directly to your agent's skills directory:
+
+```bash
+# Claude Code
+git clone https://github.com/edxeth/superlight-exa-skill.git ~/.claude/skills/exa
+
+# OpenCode
+git clone https://github.com/edxeth/superlight-exa-skill.git ~/.opencode/skill/exa
 ```
-~/.claude/skills/exa/
+
+**Directory structure:**
+
+```
+exa/
 ├── SKILL.md
 ├── reference/
 │   └── troubleshooting.md
