@@ -84,7 +84,11 @@ do_request() {
                 fi
                 ;;
             401)
-                echo "ERROR: Invalid API key. Check EXA_API_KEY." >&2
+                total_attempts=$((total_attempts + 1))
+                if [[ $key_count -gt 1 && $total_attempts -lt $max_attempts ]]; then
+                    continue
+                fi
+                echo "ERROR: Invalid API key(s). Check EXA_API_KEY." >&2
                 return 1
                 ;;
             400)
