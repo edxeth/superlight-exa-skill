@@ -7,6 +7,20 @@ description: Searches the web using Exa's neural embeddings-based search API. Us
 
 AI-powered semantic web search for real-time information, research, and fact verification. Returns full page text, highlights, and published dates.
 
+## When to Use
+
+| Situation | Use Exa | Don't use Exa |
+|---|---|---|
+| Find sources on a topic | `search` with highlights | — |
+| Get full page content | `contents` with URL | Use TinyFish `fetch` (returns more content) |
+| Find similar pages | `similar` on a known URL | — |
+| Quick factual answer | `answer` with question | — |
+| Code/library examples | `code` with query | — |
+| Scrape JS-heavy sites | — | Use TinyFish or Firecrawl |
+| Crawl entire sites | — | Use Firecrawl `crawl` or `map` |
+
+**Exa is for discovery. TinyFish is for fetching. Firecrawl is for crawling.**
+
 ## Protocol
 
 ### Search
