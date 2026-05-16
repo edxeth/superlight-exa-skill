@@ -5,86 +5,80 @@ description: Searches the web using Exa's neural embeddings-based search API. Us
 
 # Exa Web Search
 
-AI-powered semantic web search for real-time information, research, and fact verification.
-
-## When to Use
-
-**Use Exa** when you need to:
-- Verify facts or clear doubts with current web sources
-- Debug errors by searching for solutions and stack traces
-- Research topics with up-to-date information
-- Find code examples, tutorials, and implementation patterns
-- Get AI-generated answers with citations to authoritative sources
-- Discover similar pages or find related content
-- Search for companies, people, research papers, or news
+AI-powered semantic web search for real-time information, research, and fact verification. Returns full page text, highlights, and published dates.
 
 ## Protocol
 
-### Step 1: Web Search
+### Search
 
 ```bash
-scripts/exa.sh search "<query>" [numResults] [category]
+scripts/exa.sh search "<query>" [numResults] [category] [--start-date ISO] [--end-date ISO] [--type TYPE] [--domains LIST] [--exclude-domains LIST] [--json]
 ```
 
-**Categories**: `company`, `research paper`, `news`, `pdf`, `github`, `tweet`, `personal site`, `people`
+**Categories**: `company`, `research paper`, `news`, `personal site`, `financial report`, `people`
 
-**Example:**
+**Search types**: `auto` (default), `neural`, `keyword`, `deep`, `deep-reasoning`, `instant`
+
+**Examples:**
 ```bash
-scripts/exa.sh search "latest LLM research papers on context windows" 5 "research paper"
+scripts/exa.sh search "latest LLM research" 5 "research paper"
+scripts/exa.sh search "AI agent memory 2026" 10 --start-date 2025-01-01T00:00:00.000Z
+scripts/exa.sh search "React server components" 5 --domains "react.dev,nextjs.org"
+scripts/exa.sh search "deep research" 5 --type deep-reasoning --json
 ```
 
-### Step 2: Get Page Contents (optional)
+### Get Page Contents
 
 ```bash
-scripts/exa.sh contents "<url1>" ["<url2>" ...]
+scripts/exa.sh contents "<url1>" ["<url2>" ...] [--highlights] [--summary] [--max-chars N] [--subpages N] [--json]
 ```
 
-**Example:**
+**Options:**
+- `--highlights` — Return key excerpts (10x more token-efficient than full text)
+- `--summary` — Return LLM-generated summary
+- `--max-chars N` — Limit characters per page (server-side)
+- `--subpages N` — Crawl N subpages per URL
+- `--json` — Output raw JSON
+
+**Examples:**
 ```bash
-scripts/exa.sh contents "https://arxiv.org/abs/2307.06435"
+scripts/exa.sh contents "https://arxiv.org/abs/2307.06435" --highlights
+scripts/exa.sh contents "https://docs.anthropic.com" --subpages 5 --max-chars 5000
 ```
 
-### Step 3: Find Similar Pages
+### Find Similar Pages
 
 ```bash
 scripts/exa.sh similar "<url>" [numResults]
 ```
 
-**Example:**
-```bash
-scripts/exa.sh similar "https://github.com/anthropics/anthropic-cookbook" 5
-```
+Returns similar pages with full text, highlights, and published dates.
 
-### Step 4: Get AI Answer with Citations
+### Get AI Answer with Citations
 
 ```bash
 scripts/exa.sh answer "<question>"
 ```
 
-**Example:**
-```bash
-scripts/exa.sh answer "What is the current valuation of SpaceX?"
-```
-
-### Step 5: Search Code Context
+### Search Code Context
 
 ```bash
 scripts/exa.sh code "<programming query>"
 ```
 
-**Example:**
-```bash
-scripts/exa.sh code "React useCallback hook examples with TypeScript"
-```
+Searches GitHub, Stack Overflow, dev.to, npm, PyPI with code-focused results.
+
+## Output
+
+All commands return full text content (no truncation), highlights, and published dates by default. Use `--json` for raw structured output.
 
 ## Critical Rules
 
-1. **Specific queries win** - "React useState TypeScript patterns" beats "react hooks"
-2. **Include error messages** - For debugging, include the actual error text in query
-3. **Use categories** - Append category for better results (research paper, github, news)
-4. **Verify with answer** - Use `answer` command to get fact-checked responses with citations
-5. **Current year is 2026** - Use this when recency matters; omit for timeless topics or use older years when historically relevant
-6. **No guessing** - If search returns nothing, ask user before proceeding
+1. **Specific queries win** — "React useState TypeScript patterns" beats "react hooks"
+2. **Use date filters for recency** — Add `--start-date` for "latest/current/2026" queries
+3. **Use highlights for efficiency** — `contents --highlights` is 10x more token-efficient
+4. **Valid categories only** — company, research paper, news, personal site, financial report, people
+5. **No guessing** — If search returns nothing, rephrase once then ask user
 
 ## Resources
 
